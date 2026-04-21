@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRND — Equipment Procurement Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --off-black: #111111;
+    --dark: #1a1a1a;
+    --card: #1f1f1f;
+    --border: #2e2e2e;
+    --muted: #3a3a3a;
+    --mid: #666666;
+    --light: #999999;
+    --cream: #e8e0d0;
+    --gold: #c8a96e;
+    --gold-light: #dfc090;
+    --espresso: #3d1f0a;
+    --green: #4a7c59;
+    --amber: #d4860a;
+    --red: #c0392b;
+    --blue: #2980b9;
+    --white: #f5f2ed;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* HEADER */
+  .masthead {
+    background: var(--off-black);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 48px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .masthead::before {
+    content: 'GRND';
+    position: absolute;
+    right: -20px;
+    top: -30px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 220px;
+    color: rgba(200,169,110,0.04);
+    letter-spacing: -10px;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .masthead-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .masthead h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    letter-spacing: 4px;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .masthead h1 span { color: var(--gold); }
+
+  .masthead-sub {
+    font-size: 15px;
+    color: var(--light);
+    font-weight: 300;
+    margin-bottom: 32px;
+    max-width: 600px;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .meta-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .meta-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--cream);
+  }
+
+  /* NAV */
+  .toc {
+    background: var(--off-black);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+
+  .toc a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    padding: 14px 16px;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .toc a:hover {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  /* SECTIONS */
+  .content { max-width: 1200px; margin: 0 auto; padding: 0 48px 80px; }
+
+  .section {
+    padding-top: 64px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-letter {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--gold);
+    opacity: 0.5;
+    line-height: 1;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--white);
+  }
+
+  /* EXEC SUMMARY */
+  .exec-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin-bottom: 32px;
+  }
+
+  .exec-card {
+    background: var(--card);
+    padding: 24px;
+  }
+
+  .exec-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .exec-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .alert-box {
+    background: var(--card);
+    border-left: 3px solid var(--gold);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+
+  .alert-box.green { border-left-color: var(--green); }
+  .alert-box.amber { border-left-color: var(--amber); }
+  .alert-box.red { border-left-color: var(--red); }
+
+  .alert-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .alert-box.green .alert-title { color: #7bc89a; }
+  .alert-box.amber .alert-title { color: var(--amber); }
+  .alert-box.red .alert-title { color: #e07060; }
+
+  .alert-box p {
+    font-size: 13px;
+    color: var(--cream);
+    font-weight: 300;
+  }
+
+  /* CATEGORY BLOCKS */
+  .cat-block {
+    margin-bottom: 40px;
+  }
+
+  .cat-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 2px;
+    padding: 12px 0 10px;
+    border-bottom: 1px solid var(--muted);
+  }
+
+  .item-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .item-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .item-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--cream);
+  }
+
+  .item-table tr:hover td {
+    background: rgba(200,169,110,0.04);
+  }
+
+  .item-table td:first-child {
+    font-weight: 500;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  .badge-essential {
+    background: rgba(74,124,89,0.25);
+    color: #7bc89a;
+    border: 1px solid rgba(74,124,89,0.4);
+  }
+
+  .badge-recommended {
+    background: rgba(212,134,10,0.2);
+    color: #f0b040;
+    border: 1px solid rgba(212,134,10,0.4);
+  }
+
+  .badge-optional {
+    background: rgba(102,102,102,0.2);
+    color: var(--light);
+    border: 1px solid var(--border);
+  }
+
+  .badge-new {
+    background: rgba(41,128,185,0.2);
+    color: #6ab4e0;
+    border: 1px solid rgba(41,128,185,0.4);
+  }
+
+  .badge-preowned {
+    background: rgba(200,169,110,0.15);
+    color: var(--gold-light);
+    border: 1px solid rgba(200,169,110,0.3);
+  }
+
+  /* SOURCING TABLE */
+  .sourcing-block {
+    margin-bottom: 48px;
+  }
+
+  .sourcing-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .product-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    margin-bottom: 12px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0;
+  }
+
+  .product-main {
+    padding: 20px 24px;
+  }
+
+  .product-tier {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--mid);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .product-tier.budget { color: #7bc89a; }
+  .product-tier.mid { color: var(--gold); }
+  .product-tier.premium { color: #e0a0a0; }
+
+  .product-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .product-vendor {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--mid);
+    margin-bottom: 10px;
+  }
+
+  .product-why {
+    font-size: 12px;
+    color: var(--light);
+    font-weight: 300;
+    margin-bottom: 10px;
+    max-width: 680px;
+  }
+
+  .product-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .product-link {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+
+  .product-link:hover { text-decoration: underline; }
+
+  .product-price-block {
+    padding: 20px 24px;
+    border-left: 1px solid var(--border);
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .product-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    text-align: right;
+  }
+
+  .product-condition {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--mid);
+    text-align: right;
+  }
+
+  .product-warranty {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: #7bc89a;
+    text-align: right;
+    max-width: 130px;
+  }
+
+  /* ESPRESSO SECTION */
+  .espresso-machine-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+
+  .em-header {
+    background: var(--dark);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .em-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--gold);
+    opacity: 0.4;
+    line-height: 1;
+    margin-right: 8px;
+  }
+
+  .em-name-block { flex: 1; }
+
+  .em-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .em-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--mid);
+  }
+
+  .em-price-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    text-align: right;
+  }
+
+  .em-body {
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .em-specs dt {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 10px;
+  }
+
+  .em-specs dt:first-child { margin-top: 0; }
+
+  .em-specs dd {
+    font-size: 13px;
+    color: var(--cream);
+    padding-left: 0;
+    margin-left: 0;
+  }
+
+  .em-verdict {
+    background: rgba(200,169,110,0.06);
+    border: 1px solid rgba(200,169,110,0.2);
+    padding: 12px 16px;
+    margin-top: 12px;
+    grid-column: 1 / -1;
+    font-size: 12px;
+    color: var(--cream);
+    font-style: italic;
+  }
+
+  /* BUDGET TABLE */
+  .budget-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 24px;
+  }
+
+  .budget-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .budget-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    padding: 10px 16px;
+    text-align: left;
+    background: var(--dark);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .budget-table th:last-child,
+  .budget-table td:last-child { text-align: right; }
+
+  .budget-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--cream);
+  }
+
+  .budget-table .subtotal td {
+    background: rgba(200,169,110,0.06);
+    font-weight: 600;
+    color: var(--gold);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+  }
+
+  .budget-table .grand-total td {
+    background: var(--dark);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+
+  /* PLAN COLUMNS */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .plan-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 24px;
+  }
+
+  .plan-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .plan-list {
+    list-style: none;
+  }
+
+  .plan-list li {
+    font-size: 12px;
+    color: var(--cream);
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(46,46,46,0.6);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .plan-list li::before {
+    content: '—';
+    color: var(--gold);
+    font-family: 'IBM Plex Mono', monospace;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* VENDOR CHECKLIST */
+  .vendor-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .vendor-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+  }
+
+  .vendor-name {
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 4px;
+    font-size: 13px;
+  }
+
+  .vendor-focus {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--mid);
+    margin-bottom: 8px;
+  }
+
+  .vendor-url {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  /* FINAL CHECKLIST */
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .checklist-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 24px;
+  }
+
+  .checklist-block h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .checklist-block ul {
+    list-style: none;
+  }
+
+  .checklist-block ul li {
+    font-size: 12px;
+    color: var(--cream);
+    padding: 4px 0;
+    padding-left: 16px;
+    position: relative;
+    border-bottom: 1px solid rgba(46,46,46,0.5);
+  }
+
+  .checklist-block ul li::before {
+    content: '☐';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 11px;
+  }
+
+  /* QUESTIONS */
+  .q-list {
+    list-style: none;
+    counter-reset: q-counter;
+  }
+
+  .q-list li {
+    counter-increment: q-counter;
+    font-size: 13px;
+    color: var(--cream);
+    padding: 12px 16px 12px 56px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .q-list li::before {
+    content: counter(q-counter, decimal-leading-zero);
+    position: absolute;
+    left: 16px;
+    top: 12px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--gold);
+    opacity: 0.5;
+    line-height: 1.2;
+  }
+
+  /* UTILS */
+  .note {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--mid);
+    background: var(--dark);
+    padding: 8px 12px;
+    border-left: 2px solid var(--border);
+    margin-top: 8px;
+  }
+
+  .spacer { margin-bottom: 24px; }
+
+  .gold { color: var(--gold); }
+  .muted { color: var(--light); font-size: 12px; }
+
+  @media (max-width: 900px) {
+    .masthead { padding: 40px 24px; }
+    .content { padding: 0 24px 60px; }
+    .toc { padding: 0 24px; }
+    .exec-grid { grid-template-columns: repeat(2,1fr); }
+    .two-col { grid-template-columns: 1fr; }
+    .vendor-grid { grid-template-columns: repeat(2,1fr); }
+    .checklist-grid { grid-template-columns: 1fr; }
+    .em-body { grid-template-columns: 1fr; }
+    .product-card { grid-template-columns: 1fr; }
+    .product-price-block { border-left: none; border-top: 1px solid var(--border); align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-tag">Procurement Plan — Confidential Operator Document</div>
+  <h1>GRND <span>//</span> ATL</h1>
+  <p class="masthead-sub">Complete Coffee Shop Equipment, Smallwares & Infrastructure Procurement Plan — Atlanta, Georgia</p>
+  <div class="meta-row">
+    <div class="meta-item">
+      <span class="meta-label">Concept</span>
+      <span class="meta-value">GRND</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Type</span>
+      <span class="meta-value">Brick & Mortar Coffee Shop</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Market</span>
+      <span class="meta-value">Atlanta, Georgia</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Document Type</span>
+      <span class="meta-value">Opening Procurement Plan</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Prepared</span>
+      <span class="meta-value">April 2026</span>
+    </div>
+  </div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<nav class="toc">
+  <a href="#exec">A. Executive Summary</a>
+  <a href="#checklist">B. Full Checklist</a>
+  <a href="#breakdown">C. Priority Breakdown</a>
+  <a href="#sourcing">D. Sourcing Table</a>
+  <a href="#espresso">E. Espresso Machines</a>
+  <a href="#budget">F. Budget Ranges</a>
+  <a href="#newvspre">G. New vs Pre-Owned</a>
+  <a href="#plan">H. Final Plan</a>
+</nav>
+
+<div class="content">
+
+<!-- ============================================================ -->
+<!-- A. EXECUTIVE SUMMARY -->
+<!-- ============================================================ -->
+<div class="section" id="exec">
+  <div class="section-header">
+    <span class="section-letter">A</span>
+    <span class="section-title">Executive Summary</span>
+  </div>
+
+  <div class="exec-grid">
+    <div class="exec-card">
+      <div class="exec-num">9</div>
+      <div class="exec-label">Equipment Categories</div>
+    </div>
+    <div class="exec-card">
+      <div class="exec-num">130+</div>
+      <div class="exec-label">Line Items Covered</div>
+    </div>
+    <div class="exec-card">
+      <div class="exec-num">$75K–$130K</div>
+      <div class="exec-label">Est. Full Opening Range</div>
+    </div>
+    <div class="exec-card">
+      <div class="exec-num">5</div>
+      <div class="exec-label">Espresso Machines Vetted</div>
+    </div>
+  </div>
+
+  <div class="alert-box green">
+    <div class="alert-title">Strategic Overview</div>
+    <p>GRND is positioned as a serious specialty coffee concept in Atlanta. This plan assumes a mid-volume, single-location brick-and-mortar format — targeting 150–400 drinks per day. The espresso bar is the core capital investment. Smart purchasing means treating the espresso machine, grinders, water filtration, and refrigeration as long-horizon infrastructure, while buying smallwares and consumables lean at open and restocking as volume grows.</p>
+  </div>
+
+  <div class="alert-box amber">
+    <div class="alert-title">Key Assumptions — Flag & Confirm</div>
+    <p>This plan assumes: 1) You are serving espresso-based drinks, batch drip, and cold beverages. 2) You will offer light pastry/food from an outside commissary — no full kitchen required. 3) Your space already has or will have 200–240V electrical service, a grease trap is not required (confirm with Fulton County Health — espresso bars often qualify for a coffee shop exception), and floor drains exist or can be added. 4) You will apply for a Georgia food service permit through Fulton County Environmental Health. 5) Space is approximately 800–1,800 sq ft.</p>
+  </div>
+
+  <div class="alert-box">
+    <div class="alert-title">Atlanta-Specific Notes</div>
+    <p>Fulton County Environmental Health governs food service permits in most Atlanta addresses. Plan for a pre-opening inspection. NSF-rated equipment is often required for commercial permits — this plan flags that where relevant. Hoshizaki America is headquartered in Peachtree City, GA — strong local service network and parts availability for ice machines. La Marzocco, Nuova Simonelli, and Synesso all have certified service technicians active in the Atlanta metro market. Creation Commercial (based in Atlanta area) and Specialty Coffee Association–affiliated dealers in GA are your primary local sourcing contacts for espresso equipment.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- B. FULL EQUIPMENT CHECKLIST -->
+<!-- ============================================================ -->
+<div class="section" id="checklist">
+  <div class="section-header">
+    <span class="section-letter">B</span>
+    <span class="section-title">Full Equipment Checklist by Category</span>
+  </div>
+
+  <!-- CAT 1 -->
+  <div class="cat-block">
+    <div class="cat-title">01 — Espresso Bar Equipment</div>
+    <table class="item-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Priority</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Commercial espresso machine (2-group)</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>Core of your operation. 2-group is right for 150–400 drinks/day.</td></tr>
+        <tr><td>Primary espresso grinder</td><td>1–2</td><td><span class="badge badge-essential">Essential</span></td><td>One per group head recommended for volume. Grind-by-weight preferred.</td></tr>
+        <tr><td>Decaf espresso grinder</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>Separate grinder prevents flavor contamination. Can be a step-down model.</td></tr>
+        <tr><td>Knock box (countertop)</td><td>2</td><td><span class="badge badge-essential">Essential</span></td><td>One at each grinder position. Stainless commercial grade.</td></tr>
+        <tr><td>Portafilter set (backups)</td><td>4–6</td><td><span class="badge badge-essential">Essential</span></td><td>2 single, 2 double minimum. Match your machine brand.</td></tr>
+        <tr><td>Precision tamper</td><td>2–3</td><td><span class="badge badge-essential">Essential</span></td><td>58mm calibrated flat tamper. Avoid cheap spring tampers.</td></tr>
+        <tr><td>Distribution tool (WDT or leveler)</td><td>2</td><td><span class="badge badge-recommended">Recommended</span></td><td>Improves shot consistency significantly on high-volume bar.</td></tr>
+        <tr><td>Milk pitchers (12 oz & 20 oz)</td><td>6–10</td><td><span class="badge badge-essential">Essential</span></td><td>3–5 per size. Rattleware or Espro. Replace regularly as shape wears.</td></tr>
+        <tr><td>Espresso shot glasses (2 oz)</td><td>6–12</td><td><span class="badge badge-essential">Essential</span></td><td>Clear glass or spouted. For tasting, timing, and QC.</td></tr>
+        <tr><td>Bar scales (0.1g precision)</td><td>2</td><td><span class="badge badge-recommended">Recommended</span></td><td>Acaia Lunar or similar. One at each grinder or machine position.</td></tr>
+        <tr><td>Underbar rinser (pitcher rinser)</td><td>1–2</td><td><span class="badge badge-essential">Essential</span></td><td>Plumbed into drain. Required for efficient workflow.</td></tr>
+        <tr><td>Water filtration system</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>Inline filtration + softener or RO. Protects machine investment. NON-NEGOTIABLE.</td></tr>
+        <tr><td>Drip tray / espresso machine drain</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>Typically plumbed. Confirm during install.</td></tr>
+        <tr><td>Bar mats (rubber, commercial)</td><td>4–6</td><td><span class="badge badge-essential">Essential</span></td><td>Espresso bar area, each grinder station, pickup area.</td></tr>
+        <tr><td>Demitasse / espresso cups set</td><td>24–36</td><td><span class="badge badge-recommended">Recommended</span></td><td>If serving for-here espresso. Notched, weighted base preferred.</td></tr>
+        <tr><td>Syrup bottle setup</td><td>10–20 bottles</td><td><span class="badge badge-essential">Essential</span></td><td>Glass pump bottles preferred. 1-liter commercial pumps.</td></tr>
+        <tr><td>Blender (commercial, high-powered)</td><td>1–2</td><td><span class="badge badge-recommended">Recommended</span></td><td>Required if serving blended drinks / frappes. Vitamix or Blendtec commercial.</td></tr>
+        <tr><td>Group head cleaning brushes</td><td>4–6</td><td><span class="badge badge-essential">Essential</span></td><td>Dedicated brush per group. Replace regularly.</td></tr>
+        <tr><td>Backflush detergent (Cafiza/Puly)</td><td>Ongoing</td><td><span class="badge badge-essential">Essential</span></td><td>Daily backflush routine is required for machine longevity.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CAT 2 -->
+  <div class="cat-block">
+    <div class="cat-title">02 — Batch Coffee / Drip / Manual Brew</div>
+    <table class="item-table">
+      <thead>
+        <tr><th>Item</th><th>Qty</th><th>Priority</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Commercial batch brewer (plumbed)</td><td>1–2</td><td><span class="badge badge-essential">Essential</span></td><td>FETCO or Curtis. 1-gallon to 1.5-gallon brew capacity. Plumbed preferred.</td></tr>
+        <tr><td>Airpots / thermal servers (1.9L–2.5L)</td><td>4–6</td><td><span class="badge badge-essential">Essential</span></td><td>Fetco Luxus or BUNN. Labeled by roast. Keep 2+ in rotation always.</td></tr>
+        <tr><td>Hot water tower / on-demand dispenser</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>For tea and Americanos if your espresso machine lacks a hot water tap. Often machine-integrated.</td></tr>
+        <tr><td>Pour-over setup (kettle + dripper + stand)</td><td>1–2</td><td><span class="badge badge-recommended">Recommended</span></td><td>If offering single-cup pour-over as a menu item. Fellow Stagg EKG or Brewista commercial.</td></tr>
+        <tr><td>Brew grinder (for batch drip)</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>Separate from espresso grinder. Mahlkönig Guatemala or FETCO GRS-1202.</td></tr>
+        <tr><td>Coffee scale for batch dosing</td><td>1–2</td><td><span class="badge badge-essential">Essential</span></td><td>Consistent dosing is mandatory for quality control.</td></tr>
+        <tr><td>Coffee urns (if doing catering / events)</td><td>0</td><td><span class="badge badge-optional">Optional / Phase 2</span></td><td>Skip for now. Add when you do off-site catering.</td></tr>
+        <tr><td>Airpot stands / rail</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>Clean counter presence for batch display.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CAT 3 -->
+  <div class="cat-block">
+    <div class="cat-title">03 — Cold Beverage Equipment</div>
+    <table class="item-table">
+      <thead>
+        <tr><th>Item</th><th>Qty</th><th>Priority</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Commercial ice machine (modular or undercounter)</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>Hoshizaki or Manitowoc. 300–500 lb/day output. Nugget or crescent ice preferred for cold drinks.</td></tr>
+        <tr><td>Undercounter refrigeration (bar)</td><td>1–2</td><td><span class="badge badge-essential">Essential</span></td><td>Milk and cold prep at point-of-use. True or Turbo Air, glass door or reach-in.</td></tr>
+        <tr><td>Reach-in refrigerator (BOH)</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>2-door reach-in for bulk milk, cold brew containers, ingredient storage. True Mfg or Beverage Air.</td></tr>
+        <tr><td>Cold brew system (keg or concentrate)</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>Toddy commercial or 3rd party cold brew supply + keg system. Nitro is an upgrade.</td></tr>
+        <tr><td>Nitro coffee tap setup</td><td>1</td><td><span class="badge badge-optional">Optional / Phase 2</span></td><td>Single tap nitro keg system. Great brand statement but not day-1 critical.</td></tr>
+        <tr><td>Commercial blender (dedicated cold bar)</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>Separate blender for frappes / smoothie drinks keeps espresso bar clean.</td></tr>
+        <tr><td>Tea brewer / iced tea system</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>FETCO or BUNN for batch iced tea. Or steep-and-chill manual system.</td></tr>
+        <tr><td>Ice bin with scoop and holder</td><td>1–2</td><td><span class="badge badge-essential">Essential</span></td><td>NSF-rated. Must have scoop holder so scoop stays off surfaces.</td></tr>
+        <tr><td>Beverage dispensers / cold carafe</td><td>2–4</td><td><span class="badge badge-recommended">Recommended</span></td><td>For infused waters, batch tea, or guest self-serve options.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CAT 4 -->
+  <div class="cat-block">
+    <div class="cat-title">04 — Food / Pastry / Light Prep</div>
+    <table class="item-table">
+      <thead>
+        <tr><th>Item</th><th>Qty</th><th>Priority</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Refrigerated pastry display case</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>If serving any refrigerated items — yogurt, savory bites, cold bars. True or Turbo Air curved glass.</td></tr>
+        <tr><td>Dry / ambient pastry display case</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>For muffins, croissants, cookies, etc. Cal-Mil or Vollrath slant-front.</td></tr>
+        <tr><td>Sandwich prep fridge / topping rail</td><td>0–1</td><td><span class="badge badge-optional">Optional / Phase 2</span></td><td>Only if you're doing made-to-order food. Skip if pastry-only.</td></tr>
+        <tr><td>Panini press / contact grill</td><td>0–1</td><td><span class="badge badge-optional">Optional / Phase 2</span></td><td>Useful if toasting pastries. A simple conveyor toaster may suffice.</td></tr>
+        <tr><td>Commercial toaster / convection oven</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>For warming/toasting pastries. Star T-60 conveyor or Wisco countertop convection.</td></tr>
+        <tr><td>Sheet pans (18x26 full)</td><td>6</td><td><span class="badge badge-essential">Essential</span></td><td>For pastry display, transport, and storage.</td></tr>
+        <tr><td>Pan rack / bun rack</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>20-tier sheet pan rack for back-of-house storage of pastries and supplies.</td></tr>
+        <tr><td>Food storage containers (various)</td><td>12–20</td><td><span class="badge badge-essential">Essential</span></td><td>Cambro or Rubbermaid commercial. Quart, 2-qt, 4-qt, 6-qt with lids.</td></tr>
+        <tr><td>Hotel pans (1/3, 1/6 size)</td><td>4–6</td><td><span class="badge badge-recommended">Recommended</span></td><td>For cold bar staging and pastry setup.</td></tr>
+        <tr><td>Cutting boards (NSF color-coded)</td><td>3–4</td><td><span class="badge badge-essential">Essential</span></td><td>Required for food handling.</td></tr>
+        <tr><td>Prep knives (basic set)</td><td>1 set</td><td><span class="badge badge-essential">Essential</span></td><td>For fruit, syrups, garnishes.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CAT 5 -->
+  <div class="cat-block">
+    <div class="cat-title">05 — Sinks / Plumbing / Water / Sanitation</div>
+    <table class="item-table">
+      <thead>
+        <tr><th>Item</th><th>Qty</th><th>Priority</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>3-compartment sink (NSF-rated)</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>Required by Georgia food service code. Wash / rinse / sanitize. Minimum 14" deep bowls.</td></tr>
+        <tr><td>Hand sink (separate, plumbed)</td><td>1–2</td><td><span class="badge badge-essential">Essential</span></td><td>Code-required. Must be within arm's reach of food handling zones.</td></tr>
+        <tr><td>Mop sink</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>Required in Georgia. Usually back-of-house or utility closet.</td></tr>
+        <tr><td>Water filtration system (inline)</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>C-Pure, Optipure, or 3M commercial inline. For espresso machine AND ice machine.</td></tr>
+        <tr><td>Water softener (if hard water)</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>Atlanta municipal water is moderately hard. Test your water. Reverse Osmosis or ion exchange.</td></tr>
+        <tr><td>Grease trap</td><td>Confirm</td><td><span class="badge badge-essential">Essential</span></td><td>CONFIRM LOCALLY. Most coffee-only shops get an exemption, but if toasting or heating food, you may need one per Fulton County code.</td></tr>
+        <tr><td>Floor mats (commercial anti-fatigue)</td><td>4–8</td><td><span class="badge badge-essential">Essential</span></td><td>Notrax or similar. At espresso bar, dish area, and BOH. OSHA-compliant.</td></tr>
+        <tr><td>Soap dispensers (wall-mount)</td><td>2–3</td><td><span class="badge badge-essential">Essential</span></td><td>At each hand sink. Commercial lever or push-type preferred.</td></tr>
+        <tr><td>Sanitizer dispensing system</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>Wall-mount Quat dispenser or Sani-Rinse dilution system. For sanitizer buckets.</td></tr>
+        <tr><td>Paper towel dispensers</td><td>2–3</td><td><span class="badge badge-essential">Essential</span></td><td>Touchless preferred. Near each hand sink.</td></tr>
+        <tr><td>Drain screens / strainers</td><td>4</td><td><span class="badge badge-essential">Essential</span></td><td>At espresso machine drain, rinser, and sinks. Required to pass inspection.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CAT 6 -->
+  <div class="cat-block">
+    <div class="cat-title">06 — Front-of-House / Service / Guest-Facing</div>
+    <table class="item-table">
+      <thead>
+        <tr><th>Item</th><th>Qty</th><th>Priority</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>POS system (hardware + software)</td><td>1–2</td><td><span class="badge badge-essential">Essential</span></td><td>Square, Toast, or Lightspeed. Include iPad, stand, cash drawer, receipt printer.</td></tr>
+        <tr><td>Receipt printer (thermal)</td><td>1–2</td><td><span class="badge badge-essential">Essential</span></td><td>Star Micronics TSP143. One at register, one at barista if needed.</td></tr>
+        <tr><td>Cash drawer</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>APG Vasario or equivalent. Connects to receipt printer or iPad stand.</td></tr>
+        <tr><td>Label printer (barista tickets)</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>Brother QL-820 or Dymo 4XL. For labeling cups or printing prep tickets for mobile orders.</td></tr>
+        <tr><td>Menu boards (digital or printed)</td><td>2–3</td><td><span class="badge badge-essential">Essential</span></td><td>Digital TV/monitor displays give you flexibility to change pricing and items. Samsung commercial or BrightSign.</td></tr>
+        <tr><td>Customer order pickup shelf</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>Separated pick-up window or numbered shelf. Keeps bar organized.</td></tr>
+        <tr><td>Trash receptacles (FOH)</td><td>2–3</td><td><span class="badge badge-essential">Essential</span></td><td>Touchless lid or open-top with liner. Powder coated steel for aesthetic.</td></tr>
+        <tr><td>Recycling bins</td><td>1–2</td><td><span class="badge badge-recommended">Recommended</span></td><td>Match trash cans in material and finish for visual cleanliness.</td></tr>
+        <tr><td>Bus bins (tray returns)</td><td>2–3</td><td><span class="badge badge-recommended">Recommended</span></td><td>Cambro or Vollrath. For guest-side self-clearing of for-here cups.</td></tr>
+        <tr><td>Cup, lid, straw organizer station</td><td>1–2</td><td><span class="badge badge-essential">Essential</span></td><td>Condiment rail and cup caddy. Keeps counter clear and organized.</td></tr>
+        <tr><td>Condiment station (sugar, sweetener, napkins)</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>Cal-Mil, Libbey, or custom fabrication. Consider your brand aesthetic.</td></tr>
+        <tr><td>Merchandise shelving</td><td>1–2</td><td><span class="badge badge-optional">Optional / Phase 2</span></td><td>Floating shelves or freestanding for merch bags, branded gear, beans for retail.</td></tr>
+        <tr><td>Tip jar / display card</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>Square has integrated digital tipping. Physical jar is optional.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CAT 7 -->
+  <div class="cat-block">
+    <div class="cat-title">07 — Storage / Utility / Operational Infrastructure</div>
+    <table class="item-table">
+      <thead>
+        <tr><th>Item</th><th>Qty</th><th>Priority</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Metro shelving (NSF wire, adjustable)</td><td>4–8 units</td><td><span class="badge badge-essential">Essential</span></td><td>Regency or Metro brand. For dry storage, chemicals storage, equipment staging. NSF-rated required.</td></tr>
+        <tr><td>Dunnage racks (floor storage)</td><td>2–3</td><td><span class="badge badge-recommended">Recommended</span></td><td>6" off floor. Required by code for bulk storage items (coffee bags, cups, supplies).</td></tr>
+        <tr><td>Coffee/ingredient bins (airtight)</td><td>4–8</td><td><span class="badge badge-essential">Essential</span></td><td>Airscape commercial or Cambro for bulk coffee, sweetener, dry ingredients.</td></tr>
+        <tr><td>Reach-in freezer (BOH)</td><td>0–1</td><td><span class="badge badge-optional">Optional / Phase 2</span></td><td>Only if holding frozen goods (pastry dough, ice cream). Skip if not needed at open.</td></tr>
+        <tr><td>Speed racks (for sheet pans)</td><td>1–2</td><td><span class="badge badge-recommended">Recommended</span></td><td>Full-size rack on casters for moving pastry and supplies.</td></tr>
+        <tr><td>Cleaning caddies / supply organizers</td><td>2</td><td><span class="badge badge-essential">Essential</span></td><td>Spray bottle holders, color-coded towel buckets, broom clip systems.</td></tr>
+        <tr><td>Step stool / rolling ladder</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>Commercial folding step stool with grip-top for high shelving access.</td></tr>
+        <tr><td>Lockable storage (filing cabinet / safe)</td><td>1</td><td><span class="badge badge-recommended">Recommended</span></td><td>For petty cash, employee docs, and critical supplies.</td></tr>
+        <tr><td>Extension cords (commercial 12-gauge)</td><td>2</td><td><span class="badge badge-optional">Optional / Phase 2</span></td><td>For temp equipment only. Do not run appliances on extension cords permanently — code violation.</td></tr>
+        <tr><td>Power strips (surge-protected)</td><td>2–3</td><td><span class="badge badge-recommended">Recommended</span></td><td>For POS equipment and office chargers only. Not for high-draw appliances.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CAT 8 -->
+  <div class="cat-block">
+    <div class="cat-title">08 — Smallwares / Daily Operating Tools</div>
+    <table class="item-table">
+      <thead>
+        <tr><th>Item</th><th>Qty</th><th>Priority</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>To-go hot cups (8, 12, 16, 20 oz)</td><td>1,000–2,500 per size</td><td><span class="badge badge-essential">Essential</span></td><td>EcoImagine or Dart. Order opening stock of ~2 cases per size. Order branded when budget allows.</td></tr>
+        <tr><td>Cup sleeves</td><td>1,000–2,000</td><td><span class="badge badge-essential">Essential</span></td><td>To-go paper sleeve or custom printed. Ordered with cups.</td></tr>
+        <tr><td>Cup lids (sip, flat, domed)</td><td>1,000–2,000</td><td><span class="badge badge-essential">Essential</span></td><td>Match lid type to drink menu (cold brew dome, hot sip lid).</td></tr>
+        <tr><td>Cold cups (16, 20, 24 oz)</td><td>1,000–2,000</td><td><span class="badge badge-essential">Essential</span></td><td>Clear PET cups for iced drinks. Match dome/flat lid.</td></tr>
+        <tr><td>Straws (paper or compostable)</td><td>1,000+</td><td><span class="badge badge-essential">Essential</span></td><td>Consider Atlanta's growing sustainability culture. Paper or PLA straws.</td></tr>
+        <tr><td>To-go bags / sleeves</td><td>500+</td><td><span class="badge badge-recommended">Recommended</span></td><td>Kraft paper bags for pastry and multi-item to-go orders.</td></tr>
+        <tr><td>Bar towels / wiping cloths</td><td>20–30</td><td><span class="badge badge-essential">Essential</span></td><td>Commercial bar mop towels. Color-coded: separate for bar vs. dish vs. general.</td></tr>
+        <tr><td>Thermometers (digital probe)</td><td>3–4</td><td><span class="badge badge-essential">Essential</span></td><td>Thermapen or CDN for milk steaming. One at each station. Also for food safety checks.</td></tr>
+        <tr><td>Shot timers / stopwatches</td><td>2–3</td><td><span class="badge badge-recommended">Recommended</span></td><td>Most modern espresso machines have integrated shot timers. Digital backup helpful.</td></tr>
+        <tr><td>Measuring tools (jiggers, spoons)</td><td>6–10</td><td><span class="badge badge-essential">Essential</span></td><td>For syrup dosing, recipe consistency. OXO commercial or Winco.</td></tr>
+        <tr><td>Syrup pumps (1-count per syrup bottle)</td><td>12–20</td><td><span class="badge badge-essential">Essential</span></td><td>Jordan's or Torani pumps. 1cm³ per pump. Must match bottle neck size.</td></tr>
+        <tr><td>Labeling supplies (label maker / tape)</td><td>1 kit</td><td><span class="badge badge-essential">Essential</span></td><td>For food safety date labeling, prep containers, airpots. Brady or Dymo system.</td></tr>
+        <tr><td>Nitrile gloves (M, L)</td><td>4–6 boxes</td><td><span class="badge badge-essential">Essential</span></td><td>Required for food handling. Powder-free. Restock monthly.</td></tr>
+        <tr><td>Aprons (half or full)</td><td>6–10</td><td><span class="badge badge-essential">Essential</span></td><td>Commercial canvas or denim. Consider branded aprons as part of GRND identity.</td></tr>
+        <tr><td>Scoops (various sizes)</td><td>4–6</td><td><span class="badge badge-essential">Essential</span></td><td>For ice, dry goods. All must have attached scoop holders when not in use.</td></tr>
+        <tr><td>Pitcher rinser replacement parts</td><td>1 spare kit</td><td><span class="badge badge-recommended">Recommended</span></td><td>Nozzle head and spring for underbar rinser. Keep on hand.</td></tr>
+        <tr><td>Espresso cleaning tablets / backflush discs</td><td>Supply for 3 mo.</td><td><span class="badge badge-essential">Essential</span></td><td>Cafiza or Puly Caff. Blind basket for backflush.</td></tr>
+        <tr><td>Milk frother cleaner</td><td>Supply for 3 mo.</td><td><span class="badge badge-essential">Essential</span></td><td>Milk frother spray (Urnex Rinza or similar). Used after each steaming session.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CAT 9 -->
+  <div class="cat-block">
+    <div class="cat-title">09 — Cleaning / Compliance / Safety</div>
+    <table class="item-table">
+      <thead>
+        <tr><th>Item</th><th>Qty</th><th>Priority</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Sanitizer solution (Quat or Chlorine)</td><td>Ongoing</td><td><span class="badge badge-essential">Essential</span></td><td>Quaternary or chlorine-based. Confirm ppm range with GA Health inspector. 200–400ppm Quat.</td></tr>
+        <tr><td>Sanitizer test strips</td><td>2 rolls</td><td><span class="badge badge-essential">Essential</span></td><td>Required to verify sanitizer concentration. Inspectors check these.</td></tr>
+        <tr><td>Sanitizer buckets with lids</td><td>4–6</td><td><span class="badge badge-essential">Essential</span></td><td>Red Cambro buckets standard. Labeled. One per station. Refreshed every 2 hours.</td></tr>
+        <tr><td>Mop + mop bucket + wringer</td><td>1 set</td><td><span class="badge badge-essential">Essential</span></td><td>Commercial side-press wringer bucket. Separate from cleaning cloths.</td></tr>
+        <tr><td>Brooms / dustpans</td><td>2</td><td><span class="badge badge-essential">Essential</span></td><td>Commercial angle broom + lobby broom. Color-coded preferred (BOH vs FOH).</td></tr>
+        <tr><td>Trash cans (BOH / bar area)</td><td>4–6</td><td><span class="badge badge-essential">Essential</span></td><td>Rubbermaid BRUTE 20-32 gallon with lids. Labeled: trash / recycling / compost if applicable.</td></tr>
+        <tr><td>Fire extinguisher (ABC-rated)</td><td>2</td><td><span class="badge badge-essential">Essential</span></td><td>CONFIRM LOCALLY — required by Atlanta Fire Marshal. Typically 2.5 or 5 lb ABC. Must be mounted and inspected annually.</td></tr>
+        <tr><td>First aid kit (OSHA-compliant)</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>Wall-mount, OSHA Class A or B. Required for employees.</td></tr>
+        <tr><td>Emergency contact / procedure binder</td><td>1</td><td><span class="badge badge-essential">Essential</span></td><td>Includes SDS sheets for all chemicals. Required by OSHA for any chemical in use.</td></tr>
+        <tr><td>Chemical storage (locked, labeled)</td><td>1 shelf</td><td><span class="badge badge-essential">Essential</span></td><td>Cleaning chemicals must be stored separately from food. Code requirement.</td></tr>
+        <tr><td>NSF-certified equipment (all food contact)</td><td>All</td><td><span class="badge badge-essential">Essential</span></td><td>All items touching food or beverages must be NSF or equivalent listed. Required for permit.</td></tr>
+        <tr><td>Temperature log sheets</td><td>Ongoing</td><td><span class="badge badge-essential">Essential</span></td><td>Daily AM temp checks on refrigeration. Required for health department compliance.</td></tr>
+        <tr><td>Employee food handler permits</td><td>All staff</td><td><span class="badge badge-essential">Essential</span></td><td>CONFIRM LOCALLY — Georgia requires a Food Safety Manager certification (ServSafe or equivalent) in the facility at all times.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- C. PRIORITY BREAKDOWN -->
+<!-- ============================================================ -->
+<div class="section" id="breakdown">
+  <div class="section-header">
+    <span class="section-letter">C</span>
+    <span class="section-title">Essential / Recommended / Optional Breakdown</span>
+  </div>
+
+  <div class="two-col">
+    <div class="plan-card">
+      <div class="plan-title" style="color:#7bc89a;">✓ Essential Before Opening</div>
+      <ul class="plan-list">
+        <li>Commercial espresso machine (2-group, warranted)</li>
+        <li>Primary espresso grinder(s)</li>
+        <li>Water filtration system (inline, commercial grade)</li>
+        <li>Underbar pitcher rinser (plumbed)</li>
+        <li>Commercial ice machine (300–500 lb/day)</li>
+        <li>Undercounter refrigerator (bar milk/cold)</li>
+        <li>Reach-in refrigerator (BOH)</li>
+        <li>3-compartment sink (NSF-rated)</li>
+        <li>Hand sink(s) and mop sink</li>
+        <li>Batch drip brewer + airpots</li>
+        <li>POS system with receipt printer + cash drawer</li>
+        <li>Menu boards</li>
+        <li>Pastry display case(s)</li>
+        <li>Metro shelving (storage)</li>
+        <li>Bar mats, towels, thermometers, gloves, aprons</li>
+        <li>To-go cups, lids, sleeves, cold cups, straws</li>
+        <li>Sanitizer buckets, test strips, mop, fire extinguisher</li>
+        <li>First aid kit, SDS binder, temp logs</li>
+        <li>Food handler / manager certifications</li>
+        <li>Tampers, portafilters, shot glasses, knock boxes</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div class="plan-title" style="color:#f0b040;">◎ Recommended — Get Early</div>
+      <ul class="plan-list">
+        <li>Decaf grinder (even a step-down model)</li>
+        <li>Grind-by-weight scales (Acaia Lunar)</li>
+        <li>Distribution tool (WDT or Ona Coffee leveler)</li>
+        <li>Hot water dispenser (if machine lacks it)</li>
+        <li>Pour-over setup (if on menu)</li>
+        <li>Brew grinder (separate from espresso)</li>
+        <li>Cold brew system or keg setup</li>
+        <li>Commercial blender (Vitamix commercial)</li>
+        <li>Tea brewer / batch iced tea system</li>
+        <li>Label printer (barista tickets)</li>
+        <li>Convection toaster oven</li>
+        <li>Dunnage racks and speed racks</li>
+        <li>Step stool / lockable storage</li>
+        <li>Condiment and customer-facing station setup</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="plan-card" style="margin-bottom: 0;">
+    <div class="plan-title" style="color:#999;">◌ Optional / Phase 2</div>
+    <ul class="plan-list">
+      <li>Nitro tap system — add after cold brew is established</li>
+      <li>Merchandise / retail shelving — add when merch is ready</li>
+      <li>Reach-in freezer — only if serving frozen items</li>
+      <li>Sandwich prep fridge — skip unless doing made-to-order food</li>
+      <li>Coffee urns — add only for catering/events</li>
+      <li>Square Handheld / second POS terminal — add when volume demands</li>
+      <li>Branded cups and sleeves (custom print) — generic is fine at open</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- D. SOURCING TABLE -->
+<!-- ============================================================ -->
+<div class="section" id="sourcing">
+  <div class="section-header">
+    <span class="section-letter">D</span>
+    <span class="section-title">Sourcing Table — Major Categories</span>
+  </div>
+
+  <!-- GRINDERS -->
+  <div class="sourcing-block">
+    <div class="sourcing-title">Espresso Grinders</div>
+
+    <div class="product-card">
+      <div class="product-main">
+        <div class="product-tier budget">Budget Option</div>
+        <div class="product-name">Eureka Helios 80 Espresso Grinder</div>
+        <div class="product-vendor">Creation Commercial — creationcommercial.com</div>
+        <div class="product-why">80mm flat burrs, stepless adjustment, on-demand dosing. Solid entry commercial grinder from an Italian brand. Great value per dose quality ratio. Handles moderate-high volume without overheating.</div>
+        <div class="product-tags">
+          <span class="badge badge-new">New</span>
+          <span class="badge badge-essential">1-Year Warranty</span>
+        </div>
+        <a class="product-link" href="https://creationcommercial.com/collections/espresso-grinder" target="_blank">→ creationcommercial.com/espresso-grinder</a>
+      </div>
+      <div class="product-price-block">
+        <div class="product-price">~$1,599</div>
+        <div class="product-condition">New</div>
+        <div class="product-warranty">1-Year Manufacturer</div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-main">
+        <div class="product-tier mid">Mid-Tier Option</div>
+        <div class="product-name">Mahlkönig E65S Espresso Grinder</div>
+        <div class="product-vendor">Creation Commercial — creationcommercial.com</div>
+        <div class="product-why">The industry workhorse. 65mm burrs, timed grinding, 4–7g/sec output, intelligent cooling fan. Handles 120 shots/hour. Compact footprint. Trusted by thousands of specialty cafés globally. Excellent service availability nationwide.</div>
+        <div class="product-tags">
+          <span class="badge badge-new">New</span>
+          <span class="badge badge-recommended">ETL Certified</span>
+        </div>
+        <a class="product-link" href="https://creationcommercial.com/products/mahlkonig-e65s-espresso-grinder" target="_blank">→ creationcommercial.com — E65S</a>
+      </div>
+      <div class="product-price-block">
+        <div class="product-price">$2,199</div>
+        <div class="product-condition">New</div>
+        <div class="product-warranty">Manufacturer Warranty</div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-main">
+        <div class="product-tier premium">Premium / GbW Option</div>
+        <div class="product-name">Mahlkönig E65S GBW Espresso Grinder</div>
+        <div class="product-vendor">Creation Commercial — creationcommercial.com</div>
+        <div class="product-why">Grind-by-weight dosing accurate to 0.1g. Eliminates dose inconsistency across staff. Six programmable recipes. Same compact footprint as E65S but with weight-based precision. Strongly recommended for GRND to maintain recipe integrity at scale.</div>
+        <div class="product-tags">
+          <span class="badge badge-new">New</span>
+          <span class="badge badge-recommended">ETL Safety + Sanitation</span>
+        </div>
+        <a class="product-link" href="https://creationcommercial.com/products/mahlkonig-e65s-gbw-espresso-grinder" target="_blank">→ creationcommercial.com — E65S GBW</a>
+      </div>
+      <div class="product-price-block">
+        <div class="product-price">$2,799–$2,949</div>
+        <div class="product-condition">New</div>
+        <div class="product-warranty">Manufacturer Warranty</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BATCH BREWER -->
+  <div class="sourcing-block">
+    <div class="sourcing-title">Batch Coffee Brewer</div>
+
+    <div class="product-card">
+      <div class="product-main">
+        <div class="product-tier budget">Budget / Entry Commercial</div>
+        <div class="product-name">BUNN CWTF15-APS Automatic Coffee Brewer</div>
+        <div class="product-vendor">WebstaurantStore — webstaurantstore.com</div>
+        <div class="product-why">Reliable, serviceable, and common in coffee shops nationwide. Brews into airpots. Lower cost of entry. BUNN has service centers throughout Atlanta metro. Solid for low-to-mid volume as an opener.</div>
+        <div class="product-tags">
+          <span class="badge badge-new">New</span>
+          <span class="badge badge-essential">NSF Listed</span>
+        </div>
+        <a class="product-link" href="https://www.webstaurantstore.com/13957/commercial-coffee-makers-brewers-automatic.html?vendor=Bunn" target="_blank">→ webstaurantstore.com — BUNN Brewers</a>
+      </div>
+      <div class="product-price-block">
+        <div class="product-price">~$600–$900</div>
+        <div class="product-condition">New</div>
+        <div class="product-warranty">1-Year BUNN</div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-main">
+        <div class="product-tier mid">Mid / Premium Commercial</div>
+        <div class="product-name">FETCO CBS-2131XTS Single Batch Brewer</div>
+        <div class="product-vendor">WebstaurantStore — webstaurantstore.com</div>
+        <div class="product-why">Touchscreen interface, cascading spray dome for even extraction, programmable batch sizes, NSF-listed, Made in USA. FETCO is the gold standard for specialty shop batch brewing. Pairs with FETCO Luxus airpots. Handles 4.4 gallons/hour output.</div>
+        <div class="product-tags">
+          <span class="badge badge-new">New</span>
+          <span class="badge badge-essential">NSF Listed / Made in USA</span>
+        </div>
+        <a class="product-link" href="https://www.webstaurantstore.com/344CBS213157.html" target="_blank">→ webstaurantstore.com — FETCO CBS-2131XTS</a>
+      </div>
+      <div class="product-price-block">
+        <div class="product-price">~$1,400–$1,700</div>
+        <div class="product-condition">New</div>
+        <div class="product-warranty">1-Year FETCO</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ICE MACHINE -->
+  <div class="sourcing-block">
+    <div class="sourcing-title">Commercial Ice Machine</div>
+
+    <div class="product-card">
+      <div class="product-main">
+        <div class="product-tier mid">Primary Recommendation</div>
+        <div class="product-name">Hoshizaki KM-350MAJ Slim Line Ice Machine + B-300SF Bin</div>
+        <div class="product-vendor">WebstaurantStore — webstaurantstore.com</div>
+        <div class="product-why">489 lb/day crescent cube production with 300 lb storage bin. Hoshizaki is headquartered in Peachtree City, GA — best local service network in Atlanta. Energy Star certified, H-GUARD antimicrobial components. Crescent cubes are ideal for cold beverage service.</div>
+        <div class="product-tags">
+          <span class="badge badge-new">New</span>
+          <span class="badge badge-essential">Energy Star / 3-Year Compressor Warranty</span>
+        </div>
+        <a class="product-link" href="https://www.webstaurantstore.com/415KM35M30SF.html" target="_blank">→ webstaurantstore.com — Hoshizaki KM-350MAJ</a>
+      </div>
+      <div class="product-price-block">
+        <div class="product-price">~$3,200–$3,800</div>
+        <div class="product-condition">New</div>
+        <div class="product-warranty">3-Year Compressor / 5-Year Evaporator</div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-main">
+        <div class="product-tier premium">Nugget Ice Option (Premium Cold Drinks)</div>
+        <div class="product-name">Manitowoc UNF0300A Nugget Ice Machine</div>
+        <div class="product-vendor">WebstaurantStore — webstaurantstore.com</div>
+        <div class="product-why">300 lb/day nugget ice — the "chewable" soft ice that customers love in iced lattes and cold drinks. Excellent brand differentiator for GRND. Undercounter footprint (29"). If your concept leans heavily into cold drinks, nugget ice is a meaningful upgrade.</div>
+        <div class="product-tags">
+          <span class="badge badge-new">New</span>
+          <span class="badge badge-recommended">3-Year Warranty</span>
+        </div>
+        <a class="product-link" href="https://www.webstaurantstore.com/50415/commercial-ice-equipment-and-supplies.html" target="_blank">→ webstaurantstore.com — Manitowoc Nugget Ice</a>
+      </div>
+      <div class="product-price-block">
+        <div class="product-price">~$3,500–$4,200</div>
+        <div class="product-condition">New</div>
+        <div class="product-warranty">3-Year Manufacturer</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POS -->
+  <div class="sourcing-block">
+    <div class="sourcing-title">POS System</div>
+
+    <div class="product-card">
+      <div class="product-main">
+        <div class="product-tier budget">Best Value / Fastest Launch</div>
+        <div class="product-name">Square for Restaurants — Hardware Kit</div>
+        <div class="product-vendor">squareup.com</div>
+        <div class="product-why">Square's complete kit (iPad stand + card reader + cash drawer + receipt printer) runs ~$1,119 without iPad. Free software plan available. Flat-rate 2.6% + 10¢ per swipe. Digital tipping built in. Incredibly fast to set up and train staff on. Best-fit for GRND at open.</div>
+        <div class="product-tags">
+          <span class="badge badge-new">New Hardware</span>
+          <span class="badge badge-recommended">Self-Install, No Monthly Fee on Free Plan</span>
+        </div>
+        <a class="product-link" href="https://squareup.com/us/en/point-of-sale" target="_blank">→ squareup.com/pos</a>
+      </div>
+      <div class="product-price-block">
+        <div class="product-price">~$1,119</div>
+        <div class="product-condition">New Hardware</div>
+        <div class="product-warranty">1-Year Hardware</div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-main">
+        <div class="product-tier mid">Growth Option</div>
+        <div class="product-name">Toast POS — Starter Kit</div>
+        <div class="product-vendor">toasttab.com</div>
+        <div class="product-why">Better for multi-location and high-growth operations. Pay-as-you-go plan includes free hardware for up to 2 terminals. Toast shines as GRND scales — advanced reporting, loyalty, gift cards, and online ordering. Installation support available at $75–$125/hr.</div>
+        <div class="product-tags">
+          <span class="badge badge-new">New Hardware</span>
+          <span class="badge badge-recommended">Free Hardware on PAYG Plan</span>
+        </div>
+        <a class="product-link" href="https://pos.toasttab.com" target="_blank">→ pos.toasttab.com</a>
+      </div>
+      <div class="product-price-block">
+        <div class="product-price">$0–$719</div>
+        <div class="product-condition">New (PAYG Plan)</div>
+        <div class="product-warranty">Included with plan</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- E. ESPRESSO MACHINE RECOMMENDATIONS -->
+<!-- ============================================================ -->
+<div class="section" id="espresso">
+  <div class="section-header">
+    <span class="section-letter">E</span>
+    <span class="section-title">Espresso Machine Recommendations</span>
+  </div>
+
+  <div class="alert-box">
+    <div class="alert-title">Policy for This Section</div>
+    <p>Only machines with verified warranty coverage are included. Pre-owned machines are flagged clearly and only recommended when sold by a reputable commercial dealer with an explicitly stated warranty, parts availability, and service support — not private listings. If warranty is unclear, the machine is excluded.</p>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- Machine 1 -->
+  <div class="espresso-machine-card">
+    <div class="em-header">
+      <span class="em-num">01</span>
+      <div class="em-name-block">
+        <div class="em-name">La Marzocco Linea PB AV — 2 Group</div>
+        <div class="em-sub">New · lamarzocco.com / coffeemachinedepot.com / kaldi.com</div>
+      </div>
+      <div>
+        <div class="em-price-badge">~$20,500–$22,000</div>
+        <span class="badge badge-new">New</span>
+      </div>
+    </div>
+    <div class="em-body">
+      <dl class="em-specs">
+        <dt>Key Technology</dt>
+        <dd>Dual insulated boilers, PID temperature control, saturated brew groups with integrated flow meters, digital HUD with shot timers</dd>
+        <dt>Capacity</dt>
+        <dd>Designed for 150–300+ drinks/day. 2-group is ideal for GRND's projected volume.</dd>
+        <dt>Warranty</dt>
+        <dd>1-year standard (confirm with dealer — some dealers offer extended Gold Warranty)</dd>
+        <dt>Electrical</dt>
+        <dd>240V, 3-phase or single-phase depending on config. Professional installation required.</dd>
+        <dt>Service in ATL</dt>
+        <dd>Strong. La Marzocco has certified technicians in Atlanta metro market.</dd>
+        <dt>Vendor Link</dt>
+        <dd><a class="product-link" href="https://kaldi.com/products/la-marzocco-linea-pb-auto-volumetric-av" target="_blank">→ kaldi.com (lease options available)</a></dd>
+      </dl>
+      <div>
+        <p style="font-size:13px; color:var(--light); font-weight:300;">The Linea PB is the updated evolution of La Marzocco's iconic Linea Classic — the most trusted commercial espresso machine in the specialty coffee world. The PB brings improved electronics, better thermal stability via insulated boilers, built-in shot timers, and a lower profile that improves barista sightlines. It is arguably the single best-value serious café machine at this price point considering reliability, resale value, and service network. ABR (integrated scale) version available for ~$22,000+.</p>
+        <div class="em-verdict">GRND VERDICT: Top recommendation for a serious specialty café. Iconic aesthetic. Rock-solid reliability. Available in custom RAL colors if you want to brand the bar. Explore lease options through Kaldi or La Marzocco directly.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Machine 2 -->
+  <div class="espresso-machine-card">
+    <div class="em-header">
+      <span class="em-num">02</span>
+      <div class="em-name-block">
+        <div class="em-name">Nuova Simonelli Aurelia Wave Volumetric — 2 Group</div>
+        <div class="em-sub">New · coffeemachinedepot.com / webstaurantstore.com</div>
+      </div>
+      <div>
+        <div class="em-price-badge">~$12,700–$14,500</div>
+        <span class="badge badge-new">New</span>
+      </div>
+    </div>
+    <div class="em-body">
+      <dl class="em-specs">
+        <dt>Key Technology</dt>
+        <dd>Smart Water Technology (monitors water quality in real time), Pulse-Jet extraction profiles, multi-function LCD, volumetric dosing, automated cleaning, large 14L boiler</dd>
+        <dt>Capacity</dt>
+        <dd>High-volume rated. 2 push-pull steam wands, tall cup clearance, plumbed drain tray.</dd>
+        <dt>Warranty</dt>
+        <dd>FREE Gold Warranty offered through Coffee Machine Depot (value ~$1,320). Confirm at purchase.</dd>
+        <dt>Electrical</dt>
+        <dd>220V. Professional installation required.</dd>
+        <dt>Service in ATL</dt>
+        <dd>Good. Nuova Simonelli has certified service support nationally including GA market.</dd>
+        <dt>Vendor Link</dt>
+        <dd><a class="product-link" href="https://www.coffeemachinedepot.com/products/nuova-simonelli-aurelia-wave-vol-2-group-commercial-espresso-machine" target="_blank">→ coffeemachinedepot.com</a></dd>
+      </dl>
+      <div>
+        <p style="font-size:13px; color:var(--light); font-weight:300;">The Aurelia Wave is what Nuova Simonelli built when they decided to out-engineer everyone. The Smart Water Technology that detects changes in water quality before they damage the machine is genuinely innovative. Pulse-Jet extraction profiling is a standout feature at this price. The included Gold Warranty from CMD makes this a strong value play. Also available on WebstaurantStore at ~$12,700 for the standard volumetric version.</p>
+        <div class="em-verdict">GRND VERDICT: Best value-to-feature ratio in this roundup. Excellent choice if budget is a priority but you don't want to compromise on performance. The water monitoring feature alone justifies the investment in Atlanta's municipal water environment.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Machine 3 -->
+  <div class="espresso-machine-card">
+    <div class="em-header">
+      <span class="em-num">03</span>
+      <div class="em-name-block">
+        <div class="em-name">Victoria Arduino Black Eagle V2 — 2 Group Volumetric</div>
+        <div class="em-sub">New · coffeemachinedepot.com / creationcommercial.com</div>
+      </div>
+      <div>
+        <div class="em-price-badge">~$22,000–$26,000</div>
+        <span class="badge badge-new">New</span>
+      </div>
+    </div>
+    <div class="em-body">
+      <dl class="em-specs">
+        <dt>Key Technology</dt>
+        <dd>T3 triple temperature control (boiler, infusion, steam independently), Gravimetric (weight-based) optional, stainless body, world competition standard machine</dd>
+        <dt>Capacity</dt>
+        <dd>Designed for specialty competition environments and high-volume premium cafés. Ideal when you want the bar to be a visual centerpiece.</dd>
+        <dt>Warranty</dt>
+        <dd>FREE Gold Warranty through Coffee Machine Depot (value ~$3,100). One of the best warranty packages in the market.</dd>
+        <dt>Electrical</dt>
+        <dd>240V, single-phase or 3-phase depending on config.</dd>
+        <dt>Service in ATL</dt>
+        <dd>Good. Victoria Arduino service available through EVOCA Group service network.</dd>
+        <dt>Vendor Link</dt>
+        <dd><a class="product-link" href="https://www.coffeemachinedepot.com/products/victoria-arduino-black-eagle-volumetric-2-group-commercial-espresso-machine" target="_blank">→ coffeemachinedepot.com — Black Eagle V2</a></dd>
+      </dl>
+      <div>
+        <p style="font-size:13px; color:var(--light); font-weight:300;">The Black Eagle is used by barista champions worldwide. It's as much a design statement as a coffee machine — the angular stainless body is visually iconic and communicates serious craft intent. T3 technology gives you independent temperature control that's unmatched at this tier. If GRND has a strong aesthetic DNA and wants the bar to be a talking point, the Black Eagle earns its price.</p>
+        <div class="em-verdict">GRND VERDICT: Premium visual and performance flagship. Best fit if GRND's brand positions at the top tier of Atlanta specialty coffee and the bar is a focal design element. The included $3,100 Gold Warranty through CMD is exceptional.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Machine 4 -->
+  <div class="espresso-machine-card">
+    <div class="em-header">
+      <span class="em-num">04</span>
+      <div class="em-name-block">
+        <div class="em-name">Synesso MVP Hydra — 2 Group</div>
+        <div class="em-sub">New · creationcommercial.com / blackrabbitservice.com</div>
+      </div>
+      <div>
+        <div class="em-price-badge">~$26,900+</div>
+        <span class="badge badge-new">New</span>
+      </div>
+    </div>
+    <div class="em-body">
+      <dl class="em-specs">
+        <dt>Key Technology</dt>
+        <dd>Individual brew boilers per group (not shared), each group fully independently controlled, group-by-group pressure profiling, handmade in Seattle, USA</dd>
+        <dt>Capacity</dt>
+        <dd>Built for high-volume operations that demand absolute consistency across multiple baristas simultaneously.</dd>
+        <dt>Warranty</dt>
+        <dd>1-year manufacturer warranty. Synesso is US-made — parts availability is excellent.</dd>
+        <dt>Electrical</dt>
+        <dd>240V single phase.</dd>
+        <dt>Service in ATL</dt>
+        <dd>Good — Synesso has regional service support; Black Rabbit Service Co. is a certified dealer.</dd>
+        <dt>Vendor Link</dt>
+        <dd><a class="product-link" href="https://blackrabbitservice.com/collections/commercial-espresso-machines" target="_blank">→ blackrabbitservice.com</a></dd>
+      </dl>
+      <div>
+        <p style="font-size:13px; color:var(--light); font-weight:300;">The Synesso MVP Hydra is the operator's machine — built for the barista who wants complete individual group control. Each group has its own boiler, so different coffees can be pulled at different temps simultaneously. This is exceptional for cafés that rotate single-origin offerings or run complex menus. US-made, parts-ready, and deeply respected in the specialty community.</p>
+        <div class="em-verdict">GRND VERDICT: Top-tier choice if GRND plans a technically-focused coffee program with rotating single origins. The price is a significant jump — justify it with your menu ambition and daily volume projections.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Machine 5 — Pre-Owned -->
+  <div class="espresso-machine-card">
+    <div class="em-header">
+      <span class="em-num">05</span>
+      <div class="em-name-block">
+        <div class="em-name">La Marzocco Linea Classic AV — 2 Group (Pre-Owned, Warranted)</div>
+        <div class="em-sub">Pre-Owned with Warranty · coffeemachinedepot.com / prima-coffee.com</div>
+      </div>
+      <div>
+        <div class="em-price-badge">~$8,000–$12,000</div>
+        <span class="badge badge-preowned">Pre-Owned</span>
+      </div>
+    </div>
+    <div class="em-body">
+      <dl class="em-specs">
+        <dt>Condition</dt>
+        <dd>Only purchase from CMD, Prima Coffee Equipment, or Black Rabbit Service — certified commercial dealers who fully refurbish and test before sale. Avoid Craigslist, Facebook Marketplace, or auction sites.</dd>
+        <dt>Warranty</dt>
+        <dd>Reputable dealers (CMD, Prima) offer 90-day to 1-year dealer warranty on refurbished units. Always confirm in writing before purchase. Do not buy without a stated warranty.</dd>
+        <dt>Parts Availability</dt>
+        <dd>Excellent. La Marzocco Linea Classic has been in production for 30+ years. Parts are universally available and every certified tech knows this machine cold.</dd>
+        <dt>Service in ATL</dt>
+        <dd>Outstanding. The most serviced machine in the country. Any certified espresso tech can work on it.</dd>
+        <dt>Key Risks</dt>
+        <dd>Boiler scale / damage if previous owner used poor water. Always ask for service history. Require full inspection report.</dd>
+        <dt>Vendor to Start</dt>
+        <dd><a class="product-link" href="https://www.coffeemachinedepot.com/collections/la-marzocco-commercial-espresso-machines" target="_blank">→ coffeemachinedepot.com — La Marzocco Used</a></dd>
+      </dl>
+      <div>
+        <p style="font-size:13px; color:var(--light); font-weight:300;">The Linea Classic is the most-serviced and longest-running commercial espresso machine in history. A properly refurbished unit from a certified dealer is a genuinely safe purchase. The machine's simplicity is its biggest advantage — robust, proven, and deeply understood by the service community. This path makes sense if you are budget-constrained at open but refuse to compromise on quality.</p>
+        <div class="em-verdict" style="border-color: var(--amber);">GRND PRE-OWNED VERDICT: ONLY pursue if purchased from Coffee Machine Depot, Prima Coffee Equipment, or Black Rabbit Service Co. with a written dealer warranty. Require full service history, proof of recent boiler inspection, and confirmation of all group seals/gaskets replaced. A clean Linea Classic will outperform many newer machines at half the price.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- F. BUDGET RANGES -->
+<!-- ============================================================ -->
+<div class="section" id="budget">
+  <div class="section-header">
+    <span class="section-letter">F</span>
+    <span class="section-title">Estimated Budget Ranges</span>
+  </div>
+
+  <div class="budget-table-wrap">
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Budget / Lean</th>
+          <th>Mid Tier</th>
+          <th>Premium / Full</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Espresso Machine (2-group)</td><td>$9,000 (refurb warranted)</td><td>$13,000–$16,000</td><td>$20,000–$27,000</td></tr>
+        <tr><td>Espresso Grinders (primary x2 + decaf x1)</td><td>$2,500</td><td>$5,500–$7,000</td><td>$8,000–$10,000</td></tr>
+        <tr><td>Water Filtration System</td><td>$600</td><td>$900–$1,200</td><td>$1,500–$2,500 (RO)</td></tr>
+        <tr><td>Batch Brewer + Airpots</td><td>$900</td><td>$1,800–$2,200</td><td>$2,500–$3,000</td></tr>
+        <tr><td>Ice Machine + Bin</td><td>$2,500</td><td>$3,200–$4,000</td><td>$4,500–$5,500</td></tr>
+        <tr><td>Refrigeration (under + reach-in)</td><td>$2,000</td><td>$3,500–$5,000</td><td>$6,000–$8,000</td></tr>
+        <tr><td>Pastry Display Cases</td><td>$1,200</td><td>$2,500–$3,500</td><td>$4,000–$6,000</td></tr>
+        <tr><td>Sinks (3-comp + hand + mop)</td><td>$800</td><td>$1,200–$1,800</td><td>$2,000–$3,000</td></tr>
+        <tr><td>POS System (hardware)</td><td>$1,119</td><td>$1,500–$2,500</td><td>$3,000–$5,000</td></tr>
+        <tr><td>Blender(s)</td><td>$400</td><td>$700–$900</td><td>$1,200–$1,800</td></tr>
+        <tr><td>Metro Shelving + Storage Infrastructure</td><td>$800</td><td>$1,500–$2,000</td><td>$2,500–$3,500</td></tr>
+        <tr><td>Smallwares (cups, tools, thermometers, etc.)</td><td>$1,500</td><td>$2,500–$3,500</td><td>$4,000–$5,000</td></tr>
+        <tr><td>Opening Cup / Supply Inventory (1 month)</td><td>$1,500</td><td>$2,000–$3,000</td><td>$3,500–$4,500</td></tr>
+        <tr><td>Sanitation / Safety / Compliance</td><td>$500</td><td>$800–$1,200</td><td>$1,500–$2,000</td></tr>
+        <tr><td>Cold Brew / Tea Equipment</td><td>$300</td><td>$600–$900</td><td>$1,000–$2,000 (w/ nitro)</td></tr>
+        <tr><td>Menu Boards + FOH Infrastructure</td><td>$500</td><td>$1,000–$2,000</td><td>$2,500–$5,000</td></tr>
+        <tr><td>Misc. Install / Plumbing / Electrical Prep</td><td>$2,000</td><td>$4,000–$6,000</td><td>$8,000–$12,000</td></tr>
+        <tr class="subtotal"><td>ESTIMATED TOTAL</td><td>$27,000–$35,000</td><td>$55,000–$75,000</td><td>$80,000–$130,000</td></tr>
+        <tr class="grand-total"><td colspan="4" style="text-align:center;">Realistic Mid-Tier Opening Target for GRND: $65,000–$85,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">Note: This does not include leasehold improvements, furniture, fixtures, signage, POS software subscriptions, initial coffee inventory, or working capital. Budget an additional $30,000–$80,000+ for build-out depending on space condition.</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- G. NEW VS PRE-OWNED -->
+<!-- ============================================================ -->
+<div class="section" id="newvspre">
+  <div class="section-header">
+    <span class="section-letter">G</span>
+    <span class="section-title">Buy New vs Buy Pre-Owned — Strategy Guide</span>
+  </div>
+
+  <div class="two-col">
+    <div class="plan-card">
+      <div class="plan-title">Always Buy New</div>
+      <ul class="plan-list">
+        <li><strong>Water filtration system</strong> — Filters must be fresh; unknown history compromises your machine immediately.</li>
+        <li><strong>3-compartment sink</strong> — Low cost to buy new, must pass inspection, no point in pre-owned.</li>
+        <li><strong>Hand sinks</strong> — Same logic. Buy new, install correctly.</li>
+        <li><strong>POS hardware</strong> — Technology cycles fast; pre-owned iPad stands may lack compatibility.</li>
+        <li><strong>Floor mats, smallwares, consumables</strong> — These are hygiene items. Always new.</li>
+        <li><strong>Bar scales, thermometers</strong> — Calibration reliability matters. Buy new.</li>
+        <li><strong>Espresso grinders (primary)</strong> — Burr wear is invisible; unknown grinders need new burrs anyway. Buy new unless grinder is certified reconditioned with new burrs from a reputable dealer.</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div class="plan-title">Can Safely Buy Pre-Owned</div>
+      <ul class="plan-list">
+        <li><strong>Espresso machine</strong> — ONLY from certified commercial dealer with written warranty, service history, and boiler inspection. La Marzocco Linea Classic is the safest bet.</li>
+        <li><strong>Refrigeration (True, Beverage Air, Hoshizaki)</strong> — Commercial units last 15–20 years. OK to buy pre-owned if compressor is warranted and unit is inspected.</li>
+        <li><strong>Metro shelving</strong> — Simple stainless steel; no moving parts. Pre-owned is fine if NSF-rated.</li>
+        <li><strong>Sheet pans, hotel pans, storage containers</strong> — OK pre-owned if sanitized; commercial-grade is commercial-grade.</li>
+        <li><strong>Batch brewer (FETCO/BUNN)</strong> — OK from certified dealer with warranty and descaled/cleaned documentation.</li>
+        <li><strong>Airpots / servers</strong> — Buy new. They're inexpensive and seals degrade.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="alert-box amber" style="margin-top: 16px;">
+    <div class="alert-title">Ice Machine Warning</div>
+    <p>Pre-owned ice machines are high-risk. Ice machines have complex water circuits that build scale, biofilm, and mineral deposits. Unless a pre-owned machine comes with a full cleaning/descale service documentation, certified replacement parts, and a written dealer warranty — buy new. Hoshizaki's Atlanta-area service network makes a new Hoshizaki the smart play here.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- H. FINAL PROCUREMENT PLAN -->
+<!-- ============================================================ -->
+<div class="section" id="plan">
+  <div class="section-header">
+    <span class="section-letter">H</span>
+    <span class="section-title">Final Recommended Procurement Plan for GRND</span>
+  </div>
+
+  <div class="two-col">
+    <div class="plan-card">
+      <div class="plan-title">Core Opening Budget ($65–75K Target)</div>
+      <ul class="plan-list">
+        <li>Nuova Simonelli Aurelia Wave Vol. 2-Group (new, with Gold Warranty) — ~$12,700–$14,500</li>
+        <li>Mahlkönig E65S GBW x2 (primary grinders) — ~$5,600–$5,900</li>
+        <li>Mahlkönig E65S or Eureka Helios (decaf) — ~$1,600–$2,200</li>
+        <li>3M/C-Pure inline water filtration — ~$700–$900</li>
+        <li>FETCO CBS-2131XTS batch brewer + 4 Luxus airpots — ~$2,200</li>
+        <li>Hoshizaki KM-350MAJ ice machine + bin — ~$3,200–$3,800</li>
+        <li>True undercounter refrigerator (bar) — ~$1,500–$2,000</li>
+        <li>True 2-door reach-in refrigerator (BOH) — ~$2,500–$3,200</li>
+        <li>Refrigerated pastry display case + dry case — ~$2,500–$3,500</li>
+        <li>3-comp sink + hand sinks + mop sink — ~$1,200–$1,800</li>
+        <li>Square POS hardware kit — ~$1,119</li>
+        <li>2–3 digital menu boards — ~$1,000–$1,500</li>
+        <li>Full smallwares pack (tampers, pitchers, brushes, towels) — ~$1,500</li>
+        <li>Opening cup/supply inventory (1 month) — ~$2,000</li>
+        <li>Sanitation / safety / compliance pack — ~$800</li>
+        <li>NSF metro shelving (6 units) — ~$1,000</li>
+        <li>Vitamix commercial blender — ~$700–$900</li>
+        <li>Underbar pitcher rinser — ~$250–$400</li>
+        <li>Install/plumbing/electrical allowance — ~$4,000–$6,000</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div class="plan-title">Smart Upgrade List (After Open)</div>
+      <ul class="plan-list">
+        <li>Upgrade to La Marzocco Linea PB or Black Eagle as volume grows</li>
+        <li>Add Acaia Lunar scales (x2) at bar for recipe-level precision</li>
+        <li>Add nitro cold brew tap (single keg) — Phase 2</li>
+        <li>Add second POS terminal / Square Handheld for line management</li>
+        <li>Branded cups + sleeves (custom print minimum order)</li>
+        <li>Merchandise shelving and retail bean offering</li>
+        <li>Convection toaster oven upgrade (Wisco or Turbo Chef)</li>
+        <li>Reach-in freezer if you expand into frozen desserts</li>
+        <li>Label printer for mobile order workflow</li>
+        <li>Add digital tipping and loyalty program (Square Plus $49/mo)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top: 0;">
+    <div class="plan-card">
+      <div class="plan-title">Buy Now vs Buy Later</div>
+      <ul class="plan-list">
+        <li><strong style="color:var(--white);">BUY NOW:</strong> Espresso machine, grinders, water filtration, refrigeration, ice machine, sinks, POS, display cases, smallwares, opening supply inventory</li>
+        <li><strong style="color:var(--white);">BUY LATER (60–90 days):</strong> Second POS terminal, upgraded scales, Nitro setup, additional airpots, custom-branded packaging</li>
+        <li><strong style="color:var(--white);">BUY WHEN PROVEN:</strong> Merchandise shelving, freezer, additional blenders, catering urns, expanded storage racks</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div class="plan-title">Top Vendors to Contact First</div>
+      <ul class="plan-list">
+        <li><strong style="color:var(--white);">Coffee Machine Depot</strong> (coffeemachinedepot.com) — Espresso machines, grinders, Gold Warranty packages</li>
+        <li><strong style="color:var(--white);">Creation Commercial</strong> (creationcommercial.com) — Espresso equipment, grinders, accessories</li>
+        <li><strong style="color:var(--white);">WebstaurantStore</strong> (webstaurantstore.com) — Ice machines, refrigeration, sinks, smallwares, FETCO brewers</li>
+        <li><strong style="color:var(--white);">Kaldi.com</strong> — La Marzocco dealer with lease options</li>
+        <li><strong style="color:var(--white);">Prima Coffee Equipment</strong> (prima-coffee.com) — Grinders, accessories, pre-owned warranted machines</li>
+        <li><strong style="color:var(--white);">Black Rabbit Service Co.</strong> (blackrabbitservice.com) — Espresso machines + certified service in SE US</li>
+        <li><strong style="color:var(--white);">Hoshizaki America</strong> (hoshizakiamerica.com) — Ice machines; local service in GA</li>
+        <li><strong style="color:var(--white);">Square / Toast</strong> — POS hardware and software</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- VENDOR OUTREACH CHECKLIST -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-letter" style="font-size:36px; opacity:0.4;">✓</span>
+    <span class="section-title">Vendor Outreach Checklist</span>
+  </div>
+
+  <div class="vendor-grid">
+    <div class="vendor-card">
+      <div class="vendor-name">Coffee Machine Depot</div>
+      <div class="vendor-focus">Espresso machines, grinders, full Gold Warranty packages</div>
+      <a class="vendor-url" href="https://www.coffeemachinedepot.com" target="_blank">coffeemachinedepot.com</a>
+    </div>
+    <div class="vendor-card">
+      <div class="vendor-name">Creation Commercial</div>
+      <div class="vendor-focus">Espresso, grinders, batch brew, accessories — Atlanta-area dealer</div>
+      <a class="vendor-url" href="https://creationcommercial.com" target="_blank">creationcommercial.com</a>
+    </div>
+    <div class="vendor-card">
+      <div class="vendor-name">Kaldi.com</div>
+      <div class="vendor-focus">La Marzocco dealer — lease financing options available</div>
+      <a class="vendor-url" href="https://kaldi.com" target="_blank">kaldi.com</a>
+    </div>
+    <div class="vendor-card">
+      <div class="vendor-name">Prima Coffee Equipment</div>
+      <div class="vendor-focus">Specialty equipment, accessories, warranted pre-owned</div>
+      <a class="vendor-url" href="https://prima-coffee.com" target="_blank">prima-coffee.com</a>
+    </div>
+    <div class="vendor-card">
+      <div class="vendor-name">Black Rabbit Service Co.</div>
+      <div class="vendor-focus">SE-focused espresso equipment dealer + service</div>
+      <a class="vendor-url" href="https://blackrabbitservice.com" target="_blank">blackrabbitservice.com</a>
+    </div>
+    <div class="vendor-card">
+      <div class="vendor-name">WebstaurantStore</div>
+      <div class="vendor-focus">Ice machines, refrigeration, sinks, BOH, smallwares</div>
+      <a class="vendor-url" href="https://www.webstaurantstore.com" target="_blank">webstaurantstore.com</a>
+    </div>
+    <div class="vendor-card">
+      <div class="vendor-name">Hoshizaki America</div>
+      <div class="vendor-focus">Ice machines — HQ in Peachtree City, GA / strong ATL service</div>
+      <a class="vendor-url" href="https://www.hoshizakiamerica.com" target="_blank">hoshizakiamerica.com</a>
+    </div>
+    <div class="vendor-card">
+      <div class="vendor-name">Square / Toast</div>
+      <div class="vendor-focus">POS system — hardware + software + payments</div>
+      <a class="vendor-url" href="https://squareup.com/us/en/point-of-sale" target="_blank">squareup.com</a>
+    </div>
+    <div class="vendor-card">
+      <div class="vendor-name">Katom Restaurant Supply</div>
+      <div class="vendor-focus">Alternative to WebstaurantStore — commercial equipment, BOH</div>
+      <a class="vendor-url" href="https://www.katom.com" target="_blank">katom.com</a>
+    </div>
+  </div>
+</div>
+
+<!-- CONDENSED FIRST-PASS SHOPPING LIST -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-letter" style="font-size:36px; opacity:0.4;">1</span>
+    <span class="section-title">Condensed First-Pass Shopping List</span>
+  </div>
+
+  <div class="checklist-grid">
+    <div class="checklist-block">
+      <h4>Equipment — Order First</h4>
+      <ul>
+        <li>Commercial espresso machine (2-group, warranted)</li>
+        <li>Primary espresso grinder x2 (E65S GBW recommended)</li>
+        <li>Decaf grinder x1</li>
+        <li>Water filtration system (inline commercial)</li>
+        <li>FETCO CBS-2131XTS batch brewer</li>
+        <li>FETCO Luxus airpots x4</li>
+        <li>Hoshizaki KM-350MAJ ice machine + B-300SF bin</li>
+        <li>True undercounter refrigerator (bar)</li>
+        <li>True 2-door reach-in refrigerator (BOH)</li>
+        <li>Refrigerated pastry display case</li>
+        <li>Dry pastry display case / countertop</li>
+        <li>3-compartment sink (NSF)</li>
+        <li>Hand sink x2</li>
+        <li>Mop sink</li>
+        <li>Underbar pitcher rinser</li>
+        <li>Commercial convection toaster</li>
+        <li>Vitamix commercial blender x1</li>
+      </ul>
+    </div>
+    <div class="checklist-block">
+      <h4>FOH + Tech + Compliance</h4>
+      <ul>
+        <li>Square POS hardware kit (+ iPad)</li>
+        <li>Receipt printer x2 (Star Micronics)</li>
+        <li>Cash drawer x1</li>
+        <li>Digital menu boards x2–3</li>
+        <li>Customer pickup shelf</li>
+        <li>Tampers x3 (58mm calibrated)</li>
+        <li>Portafilter set x6 (machine brand)</li>
+        <li>Milk pitchers 12oz + 20oz x8 each</li>
+        <li>Bar scales (Acaia Lunar) x2</li>
+        <li>Shot glasses x12</li>
+        <li>Bar mats x6</li>
+        <li>Syrup bottles + pumps (12–20 sets)</li>
+        <li>Bar towels x30</li>
+        <li>Thermometers x4</li>
+        <li>Sanitizer buckets x6 + test strips</li>
+        <li>Fire extinguisher x2 (ABC-rated)</li>
+        <li>First aid kit (OSHA)</li>
+        <li>Aprons x8</li>
+      </ul>
+    </div>
+    <div class="checklist-block">
+      <h4>Opening Supply Inventory</h4>
+      <ul>
+        <li>Hot cups 8, 12, 16, 20 oz (2 cases each)</li>
+        <li>Cup sleeves (2 cases)</li>
+        <li>Sip lids + dome lids (2 cases each)</li>
+        <li>Cold cups 16, 24 oz (2 cases each)</li>
+        <li>Straws paper/compostable (2 cases)</li>
+        <li>To-go bags kraft (500)</li>
+        <li>Nitrile gloves M + L (4 boxes each)</li>
+        <li>Cleaning chemicals (Cafiza, Urnex Rinza, Quat sanitizer)</li>
+        <li>Food storage containers (Cambro, 12 units mixed)</li>
+        <li>Label supplies (label maker + tape)</li>
+        <li>Measuring tools (jiggers, spoons, scoops)</li>
+        <li>Ice scoops + scoop holders x2</li>
+        <li>NSF metro shelving units x4–6</li>
+        <li>Dunnage racks x2</li>
+        <li>Cambro food storage (ingredient bins)</li>
+      </ul>
+    </div>
+    <div class="checklist-block">
+      <h4>Questions to Answer Before Finalizing</h4>
+      <ul>
+        <li>What is your projected daily drink volume (low/mid/high day)?</li>
+        <li>Is your space already permitted or are you starting from raw shell?</li>
+        <li>What is your electrical service (100A, 200A, 3-phase availability)?</li>
+        <li>Do you have floor drains in bar and BOH areas?</li>
+        <li>Is a grease trap already installed or required by Fulton County?</li>
+        <li>Will you self-source pastry or co-produce with a bakery?</li>
+        <li>Do you plan to offer for-here ceramic service or to-go only?</li>
+        <li>Have you tested your incoming water hardness and TDS?</li>
+        <li>Do you have a coffee roaster partner, or are you selecting one?</li>
+        <li>What is your total equipment budget ceiling?</li>
+        <li>Will you hire a certified espresso technician for install?</li>
+        <li>Do you have a bar fabricator for custom undercounter and drip tray work?</li>
+        <li>Will you finance any major equipment (machine lease options available)?</li>
+        <li>Is your space in a city of Atlanta address or unincorporated Fulton?</li>
+        <li>ServSafe certified manager — do you have one, or does staff need training?</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px;">
+  <div>
+    <div style="font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 3px; color: var(--gold);">GRND</div>
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--mid); text-transform: uppercase; letter-spacing: 0.1em;">Atlanta, Georgia — Equipment Procurement Plan</div>
+  </div>
+  <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--mid); text-align: right;">
+    <div>Prepared: April 2026</div>
+    <div>Status: Draft — Internal Use Only</div>
+    <div style="margin-top: 4px; color: var(--border);">Prices are estimates based on market research as of April 2026.</div>
+    <div style="color: var(--border);">Confirm current pricing with vendors before purchasing.</div>
+  </div>
+</div>
+
+</div><!-- /content -->
+</body>
+</html>
